@@ -1,11 +1,10 @@
 package com.me.util.PDF;
 
+import com.aspose.words.Document;
 import com.aspose.words.License;
+import com.aspose.words.SaveFormat;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * 作者 YUEJS
@@ -52,6 +51,20 @@ public class WordToPDF {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static synchronized String savePdf(String wordPath, String pdfPath) {
+        try {
+            if (!getLicense(wordPath, pdfPath)) {
+                return "";
+            }
+            Document pdf = new Document(fileInput);
+            FileOutputStream fileOS = new FileOutputStream(outputFile);
+            pdf.save(fileOS, SaveFormat.PDF);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outputFile.getPath().replace(fileSavePath, "");
     }
 
 }
